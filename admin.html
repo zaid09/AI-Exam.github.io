@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم الشاملة | Admin Dashboard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background: #f0f2f5; min-height: 100vh; }
+        
+        /* Header */
+        .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .header-title { display: flex; align-items: center; gap: 15px; }
+        .header-title h1 { font-size: 1.5em; }
+        .header-title .logo { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 0.6em; }
+        .header-actions { display: flex; gap: 10px; align-items: center; }
+        .admin-info { background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 8px; font-size: 0.9em; }
+        .btn-logout { background: #d63031; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .btn-logout:hover { background: #c0392b; }
+
+        /* Tabs */
+        .tabs { background: #fff; border-bottom: 2px solid #e0e0e0; padding: 0 20px; display: flex; gap: 5px; overflow-x: auto; }
+        .tab { padding: 15px 25px; cursor: pointer; border-bottom: 3px solid transparent; font-weight: 600; color: #666; transition: all 0.3s; white-space: nowrap; }
+        .tab:hover { color: #667eea; background: #f8f9ff; }
+        .tab.active { color: #667eea; border-bottom-color: #667eea; background: #f8f9ff; }
+
+        /* Main Content */
+        .main-content { padding: 25px; max-width: 1400px; margin: 0 auto; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Stats Bar */
+        .stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: #fff; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .stat-card .num { font-size: 2.2em; font-weight: bold; }
+        .stat-card .lbl { color: #888; font-size: 0.85em; margin-top: 5px; }
+        .stat-card.total .num { color: #667eea; }
+        .stat-card.pass .num { color: #00b894; }
+        .stat-card.fail .num { color: #d63031; }
+        .stat-card.avg .num { color: #0984e3; }
+        .stat-card.online .num { color: #e17055; }
+        .stat-card.authorized .num { color: #6c5ce7; }
+
+        /* Controls */
+        .controls { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+        .controls input, .controls select { padding: 10px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; }
+        .controls input:focus, .controls select:focus { border-color: #667eea; outline: none; }
+        .controls input { flex: 1; min-width: 200px; }
+        
+        /* Buttons */
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95em; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+        .btn-success { background: linear-gradient(135deg, #00b894, #00cec9); color: #fff; }
+        .btn-danger { background: linear-gradient(135deg, #d63031, #e17055); color: #fff; }
+        .btn-warning { background: linear-gradient(135deg, #fdcb6e, #f39c12); color: #fff; }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        /* Tables */
+        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        thead { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; }
+        th { padding: 15px 12px; text-align: right; font-weight: 600; font-size: 0.9em; }
+        td { padding: 12px; border-bottom: 1px solid #f0f0f0; font-size: 0.95em; }
+        tr:hover td { background: #f8f9ff; }
+
+        /* Badges */
+        .badge { padding: 4px 12px; border-radius: 15px; font-weight: bold; font-size: 0.85em; display: inline-block; }
+        .badge-success { background: #e6fff5; color: #00b894; }
+        .badge-danger { background: #ffeef0; color: #d63031; }
+        .badge-warning { background: #fff8e6; color: #e17055; }
+        .badge-info { background: #e8f4fd; color: #0984e3; }
+        .badge-online { background: #00b894; color: #fff; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+        /* Cards */
+        .card { background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .card-title { font-size: 1.2em; font-weight: bold; color: #2c3e50; margin-bottom: 20px; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
+
+        /* Questions List */
+        .question-item { background: #f8f9fa; border-radius: 10px; padding: 15px; margin-bottom: 15px; border-right: 4px solid #667eea; }
+        .question-item .q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .question-item .q-id { background: #667eea; color: #fff; padding: 3px 10px; border-radius: 10px; font-size: 0.85em; }
+        .question-item .q-chapter { background: #f0f3ff; color: #667eea; padding: 3px 10px; border-radius: 10px; font-size: 0.8em; }
+        .question-item .q-text { font-weight: 600; color: #2c3e50; margin-bottom: 10px; }
+        .question-item .q-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .question-item .q-option { padding: 8px 12px; background: #fff; border-radius: 6px; font-size: 0.9em; }
+        .question-item .q-option.correct { background: #e6fff5; color: #00b894; font-weight: 600; }
+
+        /* Student List */
+        .student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .student-item { background: #fff; border-radius: 10px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; justify-content: space-between; align-items: center; }
+        .student-name { font-weight: 600; color: #2c3e50; }
+        .student-status { font-size: 0.85em; }
+
+        /* No Data */
+        .no-data { text-align: center; padding: 60px; color: #888; font-size: 1.2em; }
+        .loading { text-align: center; padding: 40px; color: #667eea; font-size: 1.2em; }
+
+        /* Live Monitor */
+        .live-indicator { display: flex; align-items: center; gap: 8px; }
+        .live-dot { width: 12px; height: 12px; border-radius: 50%; background: #00b894; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: #fff; border-radius: 15px; padding: 30px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-close { background: none; border: none; font-size: 1.5em; cursor: pointer; color: #888; }
+
+        @media (max-width: 768px) {
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            table { font-size: 0.85em; }
+            th, td { padding: 8px 6px; }
+            .header { padding: 15px; }
+            .tabs { padding: 0 10px; }
+            .tab { padding: 12px 15px; font-size: 0.9em; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-title">
+            <div class="logo">جامعة<br>المصطفى</div>
+            <div>
+                <h1>🎛️ لوحة التحكم الشاملة</h1>
+                <small>Admin Control Panel - Al-Mustafa University</small>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="live-indicator">
+                <span class="live-dot"></span>
+                <span>مباشر</span>
+            </div>
+            <div class="admin-info">👤 مسؤول النظام</div>
+            <button class="btn-logout" onclick="logout()">🚪 خروج</button>
+        </div>
+    </header>
+
+    <!-- Tabs -->
+    <nav class="tabs">
+        <div class="tab active" data-tab="dashboard">📊 لوحة المتابعة</div>
+        <div class="tab" data-tab="results">📋 النتائج والتقارير</div>
+        <div class="tab" data-tab="questions">❓ إدارة الأسئلة</div>
+        <div class="tab" data-tab="students">👥 الطلاب المصرح لهم</div>
+        <div class="tab" data-tab="attempts">📈 تقرير المحاولات</div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Tab -->
+        <div class="tab-content active" id="tab-dashboard">
+            <div class="stats-bar">
+                <div class="stat-card online"><div class="num" id="onlineNow">0</div><div class="lbl">🟢 يمتحنون الآن</div></div>
+                <div class="stat-card authorized"><div class="num" id="totalAuthorized">31</div><div class="lbl">👥 طلاب مصرح لهم</div></div>
+                <div class="stat-card total"><div class="num" id="totalSubmissions">0</div><div class="lbl">📝 إجمالي الاختبارات</div></div>
+                <div class="stat-card pass"><div class="num" id="passCount">0</div><div class="lbl">✅ ناجح (≥50)</div></div>
+                <div class="stat-card fail"><div class="num" id="failCount">0</div><div class="lbl">❌ راسب (&lt;50)</div></div>
+                <div class="stat-card avg"><div class="num" id="avgScore">0</div><div class="lbl">📊 المعدل العام</div></div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">🟢 الطلاب الذين يمتحنون الآن (مباشر)</div>
+                <div id="liveStudents">
+                    <div class="no-data">لا يوجد طلاب يمتحنون حالياً</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📋 آخر النتائج المسجلة</div>
+                <div id="recentResults">
+                    <div class="loading">⏳ جاري التحميل...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Tab -->
+        <div class="tab-content" id="tab-results">
+            <div class="controls">
+                <input type="text" id="searchInput" placeholder="🔍 بحث بالاسم أو القسم...">
+                <select id="deptFilter">
+                    <option value="">جميع الأقسام</option>
+                    <option value="علوم الذكاء الاصطناعي">علوم الذكاء الاصطناعي</option>
+                    <option value="هندسة الامن السيبراني">هندسة الامن السيبراني</option>
+                    <option value="هندسة الطب الحياتي">هندسة الطب الحياتي</option>
+                </select>
+                <select id="stageFilter">
+                    <option value="">جميع المراحل</option>
+                    <option value="المرحلة الأولى">المرحلة الأولى</option>
+                    <option value="المرحلة الثانية">المرحلة الثانية</option>
+                    <option value="المرحلة الثالثة">المرحلة الثالثة</option>
+                    <option value="المرحلة الرابعة">المرحلة الرابعة</option>
+                </select>
+                <select id="statusFilter">
+                    <option value="">جميع الحالات</option>
+                    <option value="pass">ناجح فقط</option>
+                    <option value="fail">راسب فقط</option>
+                </select>
+                <button class="btn btn-primary" onclick="loadResults()">🔄 تحديث</button>
+                <button class="btn btn-success" onclick="exportCSV()">📥 تصدير Excel</button>
+                <button class="btn btn-danger" onclick="exportPDF()">📄 تصدير PDF</button>
+            </div>
+
+            <div id="resultsTable">
+                <div class="loading">⏳ جاري تحميل النتائج...</div>
+            </div>
+        </div>
+
+        <!-- Questions Tab -->
+        <div class="tab-content" id="tab-questions">
+            <div class="controls">
+                <select id="chapterFilter">
+                    <option value="">جميع الفصول</option>
+                    <option value="Network Security">Network Security</option>
+                    <option value="Intro to AI">Intro to AI</option>
+                    <option value="AI Techniques">AI Techniques</option>
+                    <option value="AI Daily Life">AI Daily Life</option>
+                    <option value="AI Applications">AI Applications</option>
+                </select>
+                <input type="text" id="questionSearch" placeholder="🔍 بحث في الأسئلة...">
+                <button class="btn btn-primary" onclick="filterQuestions()">🔍 بحث</button>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📚 بنك الأسئلة (100 سؤال)</div>
+                <div id="questionsList">
+                    <div class="loading">⏳ جاري تحميل الأسئلة...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Tab -->
+        <div class="tab-content" id="tab-students">
+            <div class="card">
+                <div class="card-title">👥 قائمة الطلاب المصرح لهم بالامتحان (31 طالب)</div>
+                <div class="controls">
+                    <input type="text" id="studentSearch" placeholder="🔍 بحث عن طالب...">
+                </div>
+                <div class="student-grid" id="authorizedStudentsList">
+                    <!-- Will be populated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Attempts Tab -->
+        <div class="tab-content" id="tab-attempts">
+            <div class="card">
+                <div class="card-title">📈 تقرير المحاولات التفصيلي</div>
+                <div class="controls">
+                    <button class="btn btn-success" onclick="exportAttemptsReport()">📥 تصدير التقرير</button>
+                </div>
+                <div id="attemptsReport">
+                    <div class="loading">⏳ جاري تحميل التقرير...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Detail Modal -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">تفاصيل</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+    if (window.location.protocol === 'file:') {
+        document.querySelector('.main-content').innerHTML = '<div style="text-align:center;padding:60px 20px"><h2 style="color:#d63031">⚠️ لا يمكن فتح الملف مباشرة</h2><p style="color:#555;font-size:1.1em;margin:20px 0">يجب تشغيل التطبيق عبر السيرفر. افتح Terminal واكتب:</p><div style="background:#1a1a2e;color:#00b894;padding:20px;border-radius:12px;direction:ltr;font-family:monospace;font-size:1.1em;margin:15px auto;max-width:350px">npx vite</div><p style="color:#555;margin-top:15px">ثم افتح: <strong>http://localhost:5173/admin-login.html</strong></p></div>';
+    }
+    </script>
+    <script type="module" src="/src/admin-panel.js"></script>
+</body>
+</html>
