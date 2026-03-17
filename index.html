@@ -1501,32 +1501,82 @@
     </style>
 </head>
 <body>
+<!-- Page Loader -->
+<div class="page-loader" id="pageLoader">
+    <div class="loader-content">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Loading Exam...</div>
+    </div>
+</div>
+
+<!-- Animated Background -->
+<div class="bg-canvas" id="bgCanvas">
+    <div class="bg-gradient"></div>
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+</div>
+
+<main role="main">
 <div class="container">
-    <!-- START SCREEN -->
-    <div class="start-screen" id="startScreen">
-        <div class="university-logo">
-            <div class="logo-placeholder" id="uniLogo">جامعة<br>المصطفى</div>
+    <div class="top-bar"></div>
+
+    <!-- Toolbar -->
+    <header class="toolbar" role="banner">
+        <button class="tool-btn" id="btnTheme" data-tooltip="Dark/Light mode" aria-label="Toggle dark/light mode" onclick="toggleTheme()">&#9790;</button>
+        <button class="tool-btn" id="btnSound" data-tooltip="Toggle sound" aria-label="Toggle sound effects" onclick="toggleSound()">&#128264;</button>
+        <button class="tool-btn btn-fullscreen" id="btnFullscreen" data-tooltip="Fullscreen" aria-label="Toggle fullscreen" onclick="toggleFullscreen()">&#9974;</button>
+        <button class="tool-btn" id="btnShortcuts" data-tooltip="Keyboard shortcuts" aria-label="Show keyboard shortcuts" onclick="toggleShortcuts()">&#9000;</button>
+        <div class="shortcuts-panel" id="shortcutsPanel" role="dialog" aria-label="Keyboard shortcuts">
+            <div class="shortcut-row"><span>Next question</span><span class="shortcut-key">&rarr;</span></div>
+            <div class="shortcut-row"><span>Previous question</span><span class="shortcut-key">&larr;</span></div>
+            <div class="shortcut-row"><span>Option A</span><span class="shortcut-key">1</span></div>
+            <div class="shortcut-row"><span>Option B</span><span class="shortcut-key">2</span></div>
+            <div class="shortcut-row"><span>Option C</span><span class="shortcut-key">3</span></div>
+            <div class="shortcut-row"><span>Option D</span><span class="shortcut-key">4</span></div>
+            <div class="shortcut-row"><span>Toggle theme</span><span class="shortcut-key">T</span></div>
         </div>
-        <div class="uni-name-ar">جامعة المصطفى</div>
-        <div class="uni-name">Al-Mustafa University</div>
+    </header>
+
+    <div class="container-inner">
+
+    <!-- ===== START SCREEN ===== -->
+    <section class="start-screen" id="startScreen" aria-label="Exam registration">
+        <div class="start-header">
+            <div class="university-logo">
+                <img src="logo.png" alt="Al-Mustafa University Logo" id="uniLogo">
+            </div>
+            <div class="start-titles">
+                <div class="uni-name-ar">جامعة المصطفى</div>
+                <div class="uni-name">Al-Mustafa University</div>
+            </div>
+        </div>
+
         <h1>AI Applications Online Exam</h1>
         <div class="ar-title">اختبار مادة تطبيقات الذكاء الاصطناعي</div>
         <p class="academic-year">2025 - 2026 Academic Year</p>
         <div class="welcome-badge"><span class="live-dot"></span> Online Exam Active / الاختبار الإلكتروني متاح</div>
 
-        <!-- Compact info cards -->
         <div class="exam-info">
-            <div class="info-card"><div class="num">25</div><div class="lbl">Questions / أسئلة</div></div>
-            <div class="info-card"><div class="num">100</div><div class="lbl">Total Marks / الدرجة</div></div>
-            <div class="info-card"><div class="num">2</div><div class="lbl">Min/Question / دقيقة/سؤال</div></div>
+            <div class="info-card">
+                <div class="num">25</div>
+                <div class="lbl">Questions / أسئلة</div>
+            </div>
+            <div class="info-card">
+                <div class="num">100</div>
+                <div class="lbl">Marks / الدرجة</div>
+            </div>
+            <div class="info-card">
+                <div class="num">2</div>
+                <div class="lbl">Min/Q / دقيقة/س</div>
+            </div>
         </div>
 
-        <!-- 2-column: rules left, form right -->
         <div class="start-body">
             <div class="rules">
                 <h3>Rules / التعليمات</h3>
                 <ul>
-                    <li><strong>25 random questions</strong> — 5 per chapter</li>
+                    <li><strong>25 random questions</strong> -- 5 per chapter</li>
                     <li><strong>4 marks</strong> each (25 x 4 = 100)</li>
                     <li><strong>2 min</strong> per question time limit</li>
                     <li>Must answer before moving next</li>
@@ -1578,51 +1628,34 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label>Full Name (Three Parts) / الاسم الثلاثي <span class="required">*</span></label>
-            <input type="text" id="studentName" placeholder="e.g. Ahmed Ali Hassan" autocomplete="off">
-            <div class="hint">يجب كتابة الاسم الثلاثي (ثلاثة أجزاء على الأقل)</div>
-            <div class="error-hint" id="nameError">⚠ يرجى إدخال الاسم الثلاثي كاملاً (3 أجزاء على الأقل)</div>
-        </div>
-        <div class="form-group">
-            <label>Department / القسم <span class="required">*</span></label>
-            <select id="studentDept">
-                <option value="">-- Select Department / اختر القسم --</option>
-                <option value="علوم الذكاء الاصطناعي">علوم الذكاء الاصطناعي / Artificial Intelligence Sciences</option>
-                <option value="هندسة الامن السيبراني">هندسة الامن السيبراني / Cybersecurity Engineering</option>
-                <option value="هندسة الطب الحياتي">هندسة الطب الحياتي / Biomedical Engineering</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>Stage / المرحلة <span class="required">*</span></label>
-            <select id="studentStage">
-                <option value="">-- Select Stage / اختر المرحلة --</option>
-                <option value="المرحلة الأولى">المرحلة الأولى / 1st Stage</option>
-                <option value="المرحلة الثانية">المرحلة الثانية / 2nd Stage</option>
-                <option value="المرحلة الثالثة">المرحلة الثالثة / 3rd Stage</option>
-                <option value="المرحلة الرابعة">المرحلة الرابعة / 4th Stage</option>
-            </select>
-        </div>
-        <div class="attempts-warning" id="attemptsWarning"></div>
-        <div class="attempts-exhausted" id="attemptsExhausted">
-            <strong>⛔ لقد استنفدت جميع المحاولات المتاحة (5 محاولات)</strong><br>
-            <span>You have used all 5 attempts. No more retakes allowed.</span>
-        </div>
-        <button class="btn btn-start" id="btnStart" disabled onclick="startExam()">Start Exam / ابدأ الاختبار 🚀</button>
-    </div>
 
-    <!-- QUIZ SCREEN -->
-    <div class="quiz-screen" id="quizScreen">
+        <div class="start-footer">
+            <button class="btn btn-start" id="btnStart" disabled onclick="startExam()">
+                Start Exam / ابدأ الاختبار
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== QUIZ SCREEN ===== -->
+    <section class="quiz-screen" id="quizScreen" aria-label="Exam questions">
         <div class="quiz-header">
             <div class="student-row" style="display:flex;align-items:center;gap:12px;">
                 <div class="student-avatar" id="quizAvatar"></div>
                 <div class="student-info" id="displayInfo"></div>
             </div>
             <div class="timer-section">
-                <div class="q-timer" id="qTimer">⏱ 02:00</div>
-                <div class="timer" id="timer">📋 1/25</div>
+                <div class="timer-circle-wrap" id="timerCircle" role="timer" aria-label="Question time remaining" aria-live="polite">
+                    <svg viewBox="0 0 56 56" aria-hidden="true">
+                        <circle class="timer-circle-bg" cx="28" cy="28" r="24"></circle>
+                        <circle class="timer-circle-fg" id="timerArc" cx="28" cy="28" r="24"
+                            stroke-dasharray="150.8" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <div class="timer-text" id="qTimerText">2:00</div>
+                </div>
+                <div class="q-counter" id="qCounter">1 / 25</div>
             </div>
         </div>
+
         <div class="progress-section">
             <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
             <div class="progress-text">
@@ -1630,19 +1663,25 @@
                 <span id="answeredLabel">Answered: 0/25</span>
             </div>
         </div>
-        <div class="question-dots" id="questionDots"></div>
+
+        <div class="question-dots" id="questionDots" role="navigation" aria-label="Question navigation"></div>
+
         <div class="question-card" id="questionCard">
-            <div><span class="q-number" id="qNum"></span><span class="q-chapter" id="qChapter"></span></div>
+            <div class="q-badge-row">
+                <span class="q-number" id="qNum"></span>
+                <span class="q-chapter" id="qChapter"></span>
+            </div>
             <div class="q-text" id="qText"></div>
-            <ul class="options-list" id="optionsList"></ul>
-            <div class="must-answer-msg" id="mustAnswerMsg">⚠ يجب الإجابة على السؤال الحالي قبل الانتقال للتالي</div>
+            <ul class="options-list" id="optionsList" role="radiogroup" aria-label="Answer options"></ul>
+            <div class="must-answer-msg" id="mustAnswerMsg">يجب الإجابة على السؤال الحالي قبل الانتقال للتالي</div>
         </div>
+
         <div class="nav-buttons">
-            <button class="btn-nav btn-prev" id="btnPrev" onclick="prevQuestion()">◀ Previous</button>
-            <button class="btn-nav btn-next" id="btnNext" onclick="nextQuestion()">Next ▶</button>
-            <button class="btn-nav btn-submit" id="btnSubmit" onclick="submitExam()" style="display:none">✅ Submit Exam</button>
+            <button class="btn-nav btn-prev" id="btnPrev" onclick="prevQuestion()">&#9664; Previous</button>
+            <button class="btn-nav btn-next" id="btnNext" onclick="nextQuestion()">Next &#9654;</button>
+            <button class="btn-nav btn-submit" id="btnSubmit" onclick="submitExam()" style="display:none">Submit Exam</button>
         </div>
-    </div>
+    </section>
 
     <!-- ===== RESULT SCREEN ===== -->
     <section class="result-screen" id="resultScreen" aria-label="Exam results">
@@ -1662,35 +1701,67 @@
                 <div class="score-total">/ 100</div>
             </div>
         </div>
-        <h1 style="border:none;margin-bottom:5px;font-size:1.8em">📊 Exam Results / نتائج الاختبار</h1>
-        <p style="color:#7f8c8d;font-size:1em" id="resultName"></p>
-        <p style="color:#888;font-size:.9em" id="resultInfo"></p>
-        <div class="result-circle" id="resultCircle">
-            <span id="resultScore"></span>
-            <span class="out-of">/ 100</span>
-        </div>
-        <div class="result-label" id="resultLabel"></div>
+
+        <div class="grade-badge" id="resultLabel"></div>
         <div class="result-msg" id="resultMsg"></div>
+
         <div class="perfect-celebration" id="perfectCelebration">
-            <h2>🏆🎉 PERFECT SCORE! 🎉🏆</h2>
+            <h2>PERFECT SCORE!</h2>
             <p>Incredible! You answered ALL 25 questions correctly!</p>
-            <p>You demonstrated exceptional knowledge of IT Course material.</p>
+            <p>You demonstrated exceptional knowledge of AI Applications material.</p>
             <div class="ar-congrats">
-                🌟 تهانينا الحارة! لقد أجبت على جميع الأسئلة بشكل صحيح! 🌟<br>
+                تهانينا الحارة! لقد أجبت على جميع الأسئلة بشكل صحيح!<br>
                 مبارك عليك هذا الإنجاز المتميز - أداء مثالي بلا أخطاء!<br>
-                نفتخر بك ونتمنى لك دوام النجاح والتفوق 🎓
+                نفتخر بك ونتمنى لك دوام النجاح والتفوق
             </div>
         </div>
+
         <div class="stats-grid">
-            <div class="stat-item"><div class="s-num correct-col" id="correctCount"></div><div class="s-lbl">Correct ✓ / صحيح</div></div>
-            <div class="stat-item"><div class="s-num wrong-col" id="wrongCount"></div><div class="s-lbl">Wrong ✗ / خطأ</div></div>
-            <div class="stat-item"><div class="s-num" style="color:#7f8c8d" id="skippedCount"></div><div class="s-lbl">Skipped — / لم يُجب</div></div>
+            <div class="stat-item">
+                <div class="s-num correct-col" id="correctCount">0</div>
+                <div class="s-lbl">Correct / صحيح</div>
+            </div>
+            <div class="stat-item">
+                <div class="s-num wrong-col" id="wrongCount">0</div>
+                <div class="s-lbl">Wrong / خطأ</div>
+            </div>
+            <div class="stat-item">
+                <div class="s-num" style="color:var(--text-muted)" id="skippedCount">0</div>
+                <div class="s-lbl">Skipped / لم يُجب</div>
+            </div>
         </div>
+
+        <div class="time-stats" id="timeStats">
+            <div class="time-stat">
+                <div class="time-stat-icon" style="background:rgba(102,126,234,0.1);color:var(--primary);">&#9201;</div>
+                <div>
+                    <div style="font-weight:600;color:var(--text-primary);" id="totalTime">0:00</div>
+                    <div style="font-size:0.75em;">Total Time</div>
+                </div>
+            </div>
+            <div class="time-stat">
+                <div class="time-stat-icon" style="background:rgba(0,184,148,0.1);color:var(--accent);">&#9889;</div>
+                <div>
+                    <div style="font-weight:600;color:var(--text-primary);" id="avgTime">0s</div>
+                    <div style="font-size:0.75em;">Avg/Question</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chapter-breakdown" id="chapterBreakdown"></div>
+
+        <div class="cert-btn-wrap" id="certBtnWrap" style="display:none">
+            <button class="btn-cert" onclick="downloadCertificate()">&#127891; Download Certificate / تحميل الشهادة</button>
+        </div>
+
+        <div id="tabSwitchInfo" style="display:none;margin:12px 0;padding:12px;background:rgba(231,76,60,0.08);border:1px solid rgba(231,76,60,0.2);border-radius:10px;color:var(--danger);font-size:0.9em;font-weight:600;text-align:center;"></div>
+
         <div class="review-section" id="reviewSection">
-            <h3>📝 Answer Review / مراجعة الإجابات</h3>
+            <h3>Answer Review / مراجعة الإجابات</h3>
             <div id="reviewContent"></div>
         </div>
-        <button class="btn btn-retry" id="btnRetry" onclick="retakeExam()">🔄 Retake Exam / إعادة الاختبار</button>
+
+        <button class="btn btn-retry" id="btnRetry" onclick="retakeExam()">Retake Exam / إعادة الاختبار</button>
         <div class="attempts-info" id="attemptsInfoResult"></div>
 
         <div class="history-section show" id="examHistorySection" style="margin-top:16px;">
@@ -1703,7 +1774,6 @@
 
     </div><!-- /container-inner -->
 </div>
-
 </main>
 
 <!-- Custom Modal -->
@@ -1717,7 +1787,33 @@
         </div>
     </div>
 </div>
+
+<!-- Tab Switch Warning -->
+<div class="tab-warning-overlay" id="tabWarningOverlay">
+    <h2>&#9888; Warning / تحذير</h2>
+    <p>You switched tabs during the exam!<br>تم اكتشاف مغادرة نافذة الاختبار!</p>
+    <p id="tabSwitchCountDisplay"></p>
+    <button onclick="dismissTabWarning()">Return to Exam / العودة للاختبار</button>
+</div>
+
+<!-- Session Recovery Modal -->
+<div class="modal-overlay" id="sessionModal">
+    <div class="modal-card">
+        <div class="session-modal-icon">&#128260;</div>
+        <div class="modal-title">Resume Exam? / استئناف الاختبار؟</div>
+        <div class="modal-msg" id="sessionModalMsg">A previous exam session was found.<br>تم العثور على جلسة اختبار سابقة.</div>
+        <div class="modal-actions">
+            <button class="modal-btn modal-btn-cancel" onclick="discardSession()">Start New / ابدأ من جديد</button>
+            <button class="modal-btn modal-btn-confirm" onclick="resumeSession()">Resume / استئناف</button>
+        </div>
+    </div>
+</div>
+
+<!-- Confetti container -->
 <div class="confetti" id="confettiContainer"></div>
+
+<!-- Hidden certificate canvas -->
+<canvas id="certCanvas" width="1200" height="850" style="display:none"></canvas>
 <script>
 // ===== ALL 100 QUESTIONS DATABASE =====
 const allQuestions = [
@@ -3081,6 +3177,5 @@ setTimeout(function() {
     if (loader) loader.classList.add('hidden');
 }, 3000);
 </script>
-<script type="module" src="/src/main.js"></script>
 </body>
 </html>
