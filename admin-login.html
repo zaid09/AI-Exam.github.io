@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل دخول الأدمن | Admin Login</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.9em;
+            line-height: 1.3;
+            border: 4px solid #fff;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1em;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .input-wrapper i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.2em;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 15px 45px 15px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s;
+            direction: ltr;
+            text-align: left;
+        }
+        .form-group input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        }
+        .error-msg {
+            background: #ffeef0;
+            border: 1px solid #f5c6cb;
+            color: #d63031;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.95em;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.15em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .back-link {
+            margin-top: 25px;
+            display: block;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.95em;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .security-note {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 0.85em;
+            color: #666;
+        }
+        .security-note strong {
+            color: #d63031;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">جامعة<br>المصطفى</div>
+        <h1>🔐 لوحة التحكم</h1>
+        <p class="subtitle">Admin Control Panel</p>
+
+        <div class="error-msg" id="errorMsg">
+            ❌ اسم المستخدم أو كلمة المرور غير صحيحة
+        </div>
+
+        <form id="loginForm" onsubmit="return handleLogin(event)">
+            <div class="form-group">
+                <label>👤 اسم المستخدم / Username</label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" placeholder="Enter username" required autocomplete="off">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>🔑 كلمة المرور / Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login" id="btnLogin">
+                دخول | Login 🚀
+            </button>
+        </form>
+
+        <a href="index.html" class="back-link">← العودة لصفحة الامتحان</a>
+
+        <div class="security-note">
+            <strong>⚠️ تحذير:</strong> هذه الصفحة مخصصة للمسؤولين فقط. 
+            محاولات الدخول غير المصرح بها يتم تسجيلها.
+        </div>
+    </div>
+
+    <script>
+    if (window.location.protocol === 'file:') {
+        document.querySelector('.login-container').innerHTML = '<div style="text-align:center;padding:30px"><h2 style="color:#d63031">⚠️ لا يمكن فتح الملف مباشرة</h2><p style="color:#555;font-size:1.1em;margin:20px 0">يجب تشغيل التطبيق عبر السيرفر. افتح Terminal واكتب:</p><div style="background:#1a1a2e;color:#00b894;padding:20px;border-radius:12px;direction:ltr;font-family:monospace;font-size:1.1em;margin:15px auto;max-width:350px">npx vite</div><p style="color:#555;margin-top:15px">ثم افتح: <strong>http://localhost:5173/admin-login.html</strong></p></div>';
+    }
+    </script>
+    <script type="module">
+        import { validateAdmin } from './src/authorized-students.js';
+
+        // Check if already logged in
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            window.location.href = 'admin.html';
+        }
+
+        window.handleLogin = function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const btnLogin = document.getElementById('btnLogin');
+
+            btnLogin.disabled = true;
+            btnLogin.textContent = 'جاري التحقق...';
+            errorMsg.style.display = 'none';
+
+            // Simulate slight delay for security
+            setTimeout(() => {
+                if (validateAdmin(username, password)) {
+                    sessionStorage.setItem('adminLoggedIn', 'true');
+                    sessionStorage.setItem('adminLoginTime', new Date().toISOString());
+                    window.location.href = 'admin.html';
+                } else {
+                    errorMsg.style.display = 'block';
+                    btnLogin.disabled = false;
+                    btnLogin.textContent = 'دخول | Login 🚀';
+                    document.getElementById('password').value = '';
+                }
+            }, 500);
+
+            return false;
+        };
+    </script>
+</body>
+</html>
