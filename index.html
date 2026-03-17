@@ -389,6 +389,281 @@
         .form-group .hint { font-size: 0.72em; color: var(--text-muted); margin-top: 2px; }
         .form-group .error-hint { font-size: 0.72em; color: var(--danger); margin-top: 2px; display: none; font-weight: 500; }
 
+        /* ===== CUSTOM SEARCHABLE DROPDOWN ===== */
+        .search-dropdown {
+            position: relative;
+            width: 100%;
+        }
+        .search-dropdown-input {
+            width: 100%;
+            padding: 10px 40px 10px 14px;
+            border: 2px solid rgba(102,126,234,0.15);
+            border-radius: var(--radius-sm);
+            font-size: 0.9em;
+            font-family: 'Inter', 'Tajawal', sans-serif;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            transition: all var(--transition);
+            cursor: pointer;
+            direction: rtl;
+            text-align: right;
+        }
+        .search-dropdown-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.12);
+        }
+        .search-dropdown-input::placeholder {
+            color: var(--text-muted);
+            direction: rtl;
+        }
+        .search-dropdown-arrow {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 0.8em;
+            pointer-events: none;
+            transition: transform 0.2s;
+        }
+        .search-dropdown.open .search-dropdown-arrow {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        .search-dropdown-list {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            max-height: 220px;
+            overflow-y: auto;
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+            padding: 4px;
+        }
+        .search-dropdown.open .search-dropdown-list {
+            display: block;
+            animation: dropdownSlide 0.2s ease;
+        }
+        @keyframes dropdownSlide {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .search-dropdown-item {
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.88em;
+            color: var(--text-primary);
+            transition: all 0.15s;
+            direction: rtl;
+            text-align: right;
+            font-family: 'Tajawal', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .search-dropdown-item:hover, .search-dropdown-item.highlighted {
+            background: linear-gradient(135deg, rgba(102,126,234,0.08), rgba(118,75,162,0.06));
+            color: var(--primary);
+        }
+        .search-dropdown-item.selected-item {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+        }
+        .search-dropdown-item .item-number {
+            min-width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            background: rgba(102,126,234,0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72em;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .search-dropdown-item.selected-item .item-number {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+        .search-dropdown-empty {
+            padding: 14px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85em;
+        }
+        .search-dropdown-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .search-dropdown-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .search-dropdown-list::-webkit-scrollbar-thumb {
+            background: rgba(102,126,234,0.2);
+            border-radius: 3px;
+        }
+
+        /* ===== STUDENT AVATAR ===== */
+        .student-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1em;
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+            transition: all var(--transition);
+            font-family: 'Tajawal', sans-serif;
+        }
+        .student-avatar.small {
+            width: 36px;
+            height: 36px;
+            font-size: 0.85em;
+        }
+        .student-avatar.large {
+            width: 72px;
+            height: 72px;
+            font-size: 1.6em;
+            box-shadow: 0 8px 25px rgba(102,126,234,0.35);
+        }
+        .selected-student-card {
+            display: none;
+            background: linear-gradient(135deg, rgba(102,126,234,0.06), rgba(118,75,162,0.04));
+            border: 1px solid rgba(102,126,234,0.15);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            margin-top: 8px;
+            align-items: center;
+            gap: 12px;
+            direction: rtl;
+            animation: fadeSlideIn 0.3s ease;
+        }
+        .selected-student-card.show {
+            display: flex;
+        }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .selected-student-info {
+            flex: 1;
+            text-align: right;
+        }
+        .selected-student-name {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.95em;
+        }
+        .selected-student-label {
+            font-size: 0.72em;
+            color: var(--accent);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* ===== EXAM HISTORY ===== */
+        .history-section {
+            margin-top: 10px;
+            display: none;
+        }
+        .history-section.show { display: block; }
+        .history-toggle {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(102,126,234,0.15);
+            border-radius: var(--radius-sm);
+            background: rgba(102,126,234,0.04);
+            color: var(--primary);
+            font-size: 0.82em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            font-family: 'Inter', 'Tajawal', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .history-toggle:hover {
+            background: rgba(102,126,234,0.08);
+        }
+        .history-list {
+            display: none;
+            margin-top: 8px;
+        }
+        .history-list.show { display: block; }
+        .history-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            font-size: 0.78em;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+        }
+        .history-score {
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .history-score.pass { color: var(--accent); }
+        .history-score.fail { color: var(--danger); }
+        .history-date {
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+
+        /* ===== WELCOME ANIMATION ===== */
+        .welcome-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: linear-gradient(135deg, rgba(0,184,148,0.08), rgba(0,206,201,0.06));
+            border: 1px solid rgba(0,184,148,0.2);
+            border-radius: 20px;
+            color: var(--accent);
+            font-size: 0.78em;
+            font-weight: 600;
+            margin-bottom: 6px;
+            animation: badgePulse 3s ease-in-out infinite;
+        }
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0,184,148,0.2); }
+            50% { box-shadow: 0 0 0 6px rgba(0,184,148,0); }
+        }
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: liveDot 1.5s ease-in-out infinite;
+        }
+        @keyframes liveDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ===== ENHANCED HEADER AVATAR ===== */
+        .quiz-header .student-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .attempts-warning {
             background: linear-gradient(135deg, rgba(243,156,18,0.1), rgba(243,156,18,0.05));
             border: 1px solid rgba(243,156,18,0.3);
@@ -1285,6 +1560,7 @@
         <h1>AI Applications Online Exam</h1>
         <div class="ar-title">اختبار مادة تطبيقات الذكاء الاصطناعي</div>
         <p class="academic-year">2025 - 2026 Academic Year</p>
+        <div class="welcome-badge"><span class="live-dot"></span> Online Exam Active / الاختبار الإلكتروني متاح</div>
 
         <!-- Compact info cards -->
         <div class="exam-info">
@@ -1319,31 +1595,37 @@
 
             <div class="start-form-col">
                 <div class="form-group">
-                    <label>Full Name / الاسم الثلاثي <span class="required">*</span></label>
-                    <input type="text" id="studentName" placeholder="e.g. Ahmed Ali Hassan" autocomplete="off" aria-required="true" aria-describedby="nameError">
-                    <div class="hint">الاسم الثلاثي (3 أجزاء على الأقل)</div>
-                    <div class="error-hint" id="nameError">يرجى إدخال الاسم الثلاثي كاملاً</div>
+                    <label>Student Name / اسم الطالب <span class="required">*</span></label>
+                    <div class="search-dropdown" id="nameDropdown">
+                        <input type="text" class="search-dropdown-input" id="studentNameSearch" placeholder="ابحث عن اسمك..." autocomplete="off" aria-required="true" aria-describedby="nameError" aria-haspopup="listbox">
+                        <span class="search-dropdown-arrow">&#9660;</span>
+                        <div class="search-dropdown-list" id="nameDropdownList" role="listbox"></div>
+                    </div>
+                    <input type="hidden" id="studentName" value="">
+                    <div class="hint">اختر اسمك من القائمة / Select your name</div>
+                    <div class="error-hint" id="nameError">يرجى اختيار اسمك من القائمة</div>
+                    <div class="selected-student-card" id="selectedStudentCard">
+                        <div class="student-avatar small" id="selectedAvatar"></div>
+                        <div class="selected-student-info">
+                            <div class="selected-student-name" id="selectedStudentName"></div>
+                            <div class="selected-student-label">Student Selected / تم اختيار الطالب</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Department / القسم <span class="required">*</span></label>
-                    <select id="studentDept" aria-required="true">
-                        <option value="">-- Select / اختر --</option>
-                        <option value="علوم الذكاء الاصطناعي">علوم الذكاء الاصطناعي / AI Sciences</option>
-                        <option value="هندسة الامن السيبراني">هندسة الامن السيبراني / Cybersecurity</option>
-                        <option value="هندسة الطب الحياتي">هندسة الطب الحياتي / Biomedical Eng.</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Stage / المرحلة <span class="required">*</span></label>
-                    <select id="studentStage" aria-required="true">
-                        <option value="">-- Select / اختر --</option>
-                        <option value="المرحلة الأولى">المرحلة الأولى / 1st</option>
-                        <option value="المرحلة الثانية">المرحلة الثانية / 2nd</option>
-                        <option value="المرحلة الثالثة">المرحلة الثالثة / 3rd</option>
-                        <option value="المرحلة الرابعة">المرحلة الرابعة / 4th</option>
-                    </select>
+                <input type="hidden" id="studentDept" value="هندسة الطب الحياتي">
+                <input type="hidden" id="studentStage" value="المرحلة الثانية">
+                <div style="display:flex;gap:8px;margin-top:2px;">
+                    <div style="flex:1;padding:10px;background:linear-gradient(135deg,rgba(102,126,234,0.08),rgba(118,75,162,0.06));border:1px solid rgba(102,126,234,0.15);border-radius:var(--radius-sm);text-align:center;">
+                        <div style="font-size:0.72em;color:var(--text-muted);margin-bottom:2px;">القسم / Dept.</div>
+                        <div style="font-size:0.82em;font-weight:700;color:var(--primary);font-family:'Tajawal',sans-serif;">هندسة الطب الحياتي</div>
+                        <div style="font-size:0.7em;color:var(--text-secondary);">Biomedical Engineering</div>
+                    </div>
+                    <div style="flex:1;padding:10px;background:linear-gradient(135deg,rgba(102,126,234,0.08),rgba(118,75,162,0.06));border:1px solid rgba(102,126,234,0.15);border-radius:var(--radius-sm);text-align:center;">
+                        <div style="font-size:0.72em;color:var(--text-muted);margin-bottom:2px;">المرحلة / Stage</div>
+                        <div style="font-size:0.82em;font-weight:700;color:var(--primary);font-family:'Tajawal',sans-serif;">المرحلة الثانية</div>
+                        <div style="font-size:0.7em;color:var(--text-secondary);">2nd Year</div>
+                    </div>
                 </div>
 
                 <div class="attempts-warning" id="attemptsWarning"></div>
@@ -1364,8 +1646,8 @@
     <!-- ===== QUIZ SCREEN ===== -->
     <section class="quiz-screen" id="quizScreen" aria-label="Exam questions">
         <div class="quiz-header">
-            <div style="display:flex;align-items:center;gap:12px;">
-                <img src="logo.png" alt="Logo" class="header-logo">
+            <div class="student-row" style="display:flex;align-items:center;gap:12px;">
+                <div class="student-avatar" id="quizAvatar"></div>
                 <div class="student-info" id="displayInfo"></div>
             </div>
             <div class="timer-section">
@@ -1410,7 +1692,7 @@
 
     <!-- ===== RESULT SCREEN ===== -->
     <section class="result-screen" id="resultScreen" aria-label="Exam results">
-        <img src="logo.png" alt="Logo" class="result-header-logo">
+        <div class="student-avatar large" id="resultAvatar" style="margin:0 auto 12px;"></div>
         <div class="result-title">Exam Results / نتائج الاختبار</div>
         <div class="result-name" id="resultName"></div>
         <div class="result-info" id="resultInfo"></div>
@@ -1491,6 +1773,13 @@
 
         <button class="btn btn-retry" id="btnRetry" onclick="retakeExam()">Retake Exam / إعادة الاختبار</button>
         <div class="attempts-info" id="attemptsInfoResult"></div>
+
+        <div class="history-section show" id="examHistorySection" style="margin-top:16px;">
+            <button class="history-toggle" id="historyToggle" onclick="toggleHistory()">
+                &#128202; Exam History / سجل الاختبارات
+            </button>
+            <div class="history-list" id="historyList"></div>
+        </div>
     </section>
 
     </div><!-- /container-inner -->
@@ -1642,6 +1931,41 @@ const allQuestions = [
 {id:100,ch:"AI Applications",q:"AI could potentially prevent how many traffic deaths annually worldwide?",opts:["500,000","1 million","1.35 million+","100,000"],ans:2}
 ];
 
+// ===== STUDENT NAMES =====
+const STUDENT_NAMES = [
+    "ابراهيم  جاسم عبدالاله مهدي",
+    "ابراهيم  نوح احمد عبد الوهاب",
+    "اسراء  ياسر  صالح  أحمد",
+    "انتظار رحيم لوله كاظم",
+    "أحمد  منتظر  هاشم تبان",
+    "أسيل  مجيد  كاطع دهموس",
+    "باقر  داخل  محسن  شندي",
+    "بنت الهدى فؤاد عبد الأمير عبد الحسين",
+    "بنين حسين كاظم حسين",
+    "بنين حسين شاكر حاتم",
+    "بنين  سامي  تايه  خضير",
+    "حسن  حيدر  حافظ  غلام",
+    "حسن  جلال خضير ابوذينه",
+    "حيدر غانم محمد كاظم",
+    "سارة حسن سامي مجيد",
+    "سميرة  رائد محمد  سراج",
+    "ضرغام  حيدر  محمد  عبد الباقي",
+    "طيبة كاظم خلف نايف",
+    "علي حسين علي  عبيد",
+    "علي حيدر  حسين علي",
+    "فاطمة عمار سعودي عباس",
+    "فاطمة هيمن إبراهيم صيهود",
+    "فاطمه عماد  صباح  سلمان",
+    "فاطمه حسين مهدي حسن",
+    "مريم  علي  ماجد نوتي",
+    "مريم  جاسم باقر خلف",
+    "مصطفى  جواد كاظم عويد",
+    "نبأ عماد كامل محمد",
+    "نرجس قتيبه عبد الكريم محمد",
+    "نور صباح هاشم عبد الرضا",
+    "وسن صلاح هادي عبادي"
+].map(function(n) { return n.replace(/\s+/g, ' ').trim(); });
+
 // ===== CONSTANTS =====
 const TOTAL_Q = 25;
 const POINTS_PER_Q = 4;
@@ -1650,6 +1974,7 @@ const Q_TIME_LIMIT = 120;
 const letters = ['A','B','C','D'];
 const STORAGE_KEY = 'ai_exam_attempts_v2';
 const SESSION_KEY = 'ai_exam_session_v1';
+const HISTORY_KEY = 'ai_exam_history_v1';
 const CIRCUMFERENCE = 2 * Math.PI * 24; // timer circle
 const SCORE_CIRCUMFERENCE = 2 * Math.PI * 96; // score ring
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1776,22 +2101,144 @@ function checkAttempts() {
     return true;
 }
 
+// ===== STUDENT AVATAR =====
+function getInitials(name) {
+    const parts = name.split(/\s+/).filter(function(p) { return p.length > 0; });
+    if (parts.length === 0) return '?';
+    if (parts.length === 1) return parts[0].charAt(0);
+    return parts[0].charAt(0) + parts[parts.length - 1].charAt(0);
+}
+function getAvatarColor(name) {
+    const colors = [
+        ['#667eea','#764ba2'], ['#00b894','#00cec9'], ['#e17055','#d63031'],
+        ['#0984e3','#74b9ff'], ['#6c5ce7','#a29bfe'], ['#fdcb6e','#f0932b'],
+        ['#e84393','#fd79a8'], ['#00b894','#55efc4'], ['#636e72','#b2bec3']
+    ];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    return colors[Math.abs(hash) % colors.length];
+}
+function setAvatar(elementId, name) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    const initials = getInitials(name);
+    const colors = getAvatarColor(name);
+    el.textContent = initials;
+    el.style.background = 'linear-gradient(135deg, ' + colors[0] + ', ' + colors[1] + ')';
+}
+
+// ===== SEARCHABLE DROPDOWN =====
+let selectedStudentName = '';
+let highlightedIdx = -1;
+
+function initNameDropdown() {
+    const input = document.getElementById('studentNameSearch');
+    const dropdown = document.getElementById('nameDropdown');
+    const list = document.getElementById('nameDropdownList');
+
+    function renderList(filter) {
+        list.innerHTML = '';
+        const query = (filter || '').trim().toLowerCase();
+        let filtered = STUDENT_NAMES.map(function(n, i) { return { name: n, idx: i }; });
+        if (query) {
+            filtered = filtered.filter(function(item) {
+                return item.name.toLowerCase().includes(query) ||
+                       item.name.includes(filter.trim());
+            });
+        }
+        if (filtered.length === 0) {
+            list.innerHTML = '<div class="search-dropdown-empty">لا توجد نتائج / No results</div>';
+            return;
+        }
+        highlightedIdx = -1;
+        filtered.forEach(function(item, fi) {
+            const div = document.createElement('div');
+            div.className = 'search-dropdown-item' + (item.name === selectedStudentName ? ' selected-item' : '');
+            div.setAttribute('role', 'option');
+            div.setAttribute('data-name', item.name);
+            div.innerHTML = '<span class="item-number">' + (item.idx + 1) + '</span>' + escapeHtml(item.name);
+            div.onclick = function(e) {
+                e.stopPropagation();
+                selectStudent(item.name);
+            };
+            list.appendChild(div);
+        });
+    }
+
+    function selectStudent(name) {
+        selectedStudentName = name;
+        document.getElementById('studentName').value = name;
+        input.value = name;
+        dropdown.classList.remove('open');
+        document.getElementById('nameError').style.display = 'none';
+
+        // Show selected card with avatar
+        setAvatar('selectedAvatar', name);
+        document.getElementById('selectedStudentName').textContent = name;
+        document.getElementById('selectedStudentCard').classList.add('show');
+
+        playSelect();
+        validateForm();
+    }
+
+    input.addEventListener('focus', function() {
+        dropdown.classList.add('open');
+        renderList(input.value === selectedStudentName ? '' : input.value);
+    });
+
+    input.addEventListener('input', function() {
+        selectedStudentName = '';
+        document.getElementById('studentName').value = '';
+        document.getElementById('selectedStudentCard').classList.remove('show');
+        dropdown.classList.add('open');
+        renderList(input.value);
+        validateForm();
+    });
+
+    input.addEventListener('keydown', function(e) {
+        const items = list.querySelectorAll('.search-dropdown-item');
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            highlightedIdx = Math.min(highlightedIdx + 1, items.length - 1);
+            items.forEach(function(it, i) { it.classList.toggle('highlighted', i === highlightedIdx); });
+            if (items[highlightedIdx]) items[highlightedIdx].scrollIntoView({ block: 'nearest' });
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            highlightedIdx = Math.max(highlightedIdx - 1, 0);
+            items.forEach(function(it, i) { it.classList.toggle('highlighted', i === highlightedIdx); });
+            if (items[highlightedIdx]) items[highlightedIdx].scrollIntoView({ block: 'nearest' });
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (highlightedIdx >= 0 && items[highlightedIdx]) {
+                selectStudent(items[highlightedIdx].getAttribute('data-name'));
+            }
+        } else if (e.key === 'Escape') {
+            dropdown.classList.remove('open');
+        }
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#nameDropdown')) {
+            dropdown.classList.remove('open');
+            if (!selectedStudentName && input.value) {
+                input.value = '';
+                validateForm();
+            }
+        }
+    });
+}
+
 // ===== FORM VALIDATION =====
 function validateForm() {
     const name = document.getElementById('studentName').value.trim();
-    const dept = document.getElementById('studentDept').value;
-    const stage = document.getElementById('studentStage').value;
-    const nameParts = name.split(/\s+/).filter(p => p.length > 1);
-    const nameValid = nameParts.length >= 3;
-    const nameInvalid = name.length > 0 && !nameValid;
+    const nameValid = STUDENT_NAMES.includes(name);
+    var searchEl = document.getElementById('studentNameSearch');
+    var nameInvalid = searchEl && searchEl.value.length > 0 && !nameValid;
     document.getElementById('nameError').style.display = nameInvalid ? 'block' : 'none';
-    document.getElementById('studentName').setAttribute('aria-invalid', nameInvalid ? 'true' : 'false');
-    const canStart = nameValid && dept !== '' && stage !== '' && (MAX_ATTEMPTS - getAttempts()) > 0;
+    var canStart = nameValid && (MAX_ATTEMPTS - getAttempts()) > 0;
     document.getElementById('btnStart').disabled = !canStart;
 }
-document.getElementById('studentName').addEventListener('input', validateForm);
-document.getElementById('studentDept').addEventListener('change', validateForm);
-document.getElementById('studentStage').addEventListener('change', validateForm);
 
 // ===== SHUFFLE =====
 function shuffle(arr) {
@@ -1831,10 +2278,9 @@ function decodeAns(q) {
 // ===== START EXAM =====
 function startExam() {
     const name = document.getElementById('studentName').value.trim();
-    const dept = document.getElementById('studentDept').value;
-    const stage = document.getElementById('studentStage').value;
-    const nameParts = name.split(/\s+/).filter(p => p.length > 1);
-    if (nameParts.length < 3 || !dept || !stage) return;
+    const dept = document.getElementById('studentDept').value || 'هندسة الطب الحياتي';
+    const stage = document.getElementById('studentStage').value || 'المرحلة الثانية';
+    if (!STUDENT_NAMES.includes(name)) return;
 
     ensureAudioCtx();
     playSuccess();
@@ -1851,6 +2297,8 @@ function startExam() {
     feedbackShown = false;
     document.body.classList.add('quiz-active');
 
+    // Set quiz header avatar
+    setAvatar('quizAvatar', name);
     document.getElementById('displayInfo').innerHTML =
         '<strong>' + escapeHtml(name) + '</strong><br>' +
         '<span style="opacity:0.85;font-size:0.88em;">' + escapeHtml(dept) + ' | ' + escapeHtml(stage) + '</span>';
@@ -2124,6 +2572,7 @@ async function submitExam(timeUp) {
 
     document.getElementById('quizScreen').style.display = 'none';
     document.getElementById('resultScreen').style.display = 'block';
+    setAvatar('resultAvatar', name);
     document.getElementById('resultName').textContent = name;
     document.getElementById('resultInfo').textContent = dept + ' | ' + stage;
 
@@ -2236,6 +2685,10 @@ async function submitExam(timeUp) {
         tsInfo.textContent = 'Tab switches detected / مغادرة النافذة: ' + tabSwitchCount;
     }
 
+    // Save to exam history
+    saveExamHistory(name, score, correct, TOTAL_Q, totalTimeSec);
+    renderExamHistory();
+
     // Focus result title
     setTimeout(function() {
         const rt = document.querySelector('.result-title');
@@ -2316,8 +2769,9 @@ document.addEventListener('keydown', function(e) {
             return;
         }
     }
-    // Quiz shortcuts
+    // Quiz shortcuts (only when quiz is active and not typing)
     if (document.getElementById('quizScreen').style.display !== 'block') return;
+    if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') return;
     if (e.key === 'ArrowRight') nextQuestion();
     if (e.key === 'ArrowLeft') prevQuestion();
     if (e.key >= '1' && e.key <= '4') selectAnswer(parseInt(e.key) - 1);
@@ -2403,9 +2857,12 @@ function resumeSession() {
         document.body.classList.add('quiz-active');
 
         document.getElementById('studentName').value = data.studentName;
+        document.getElementById('studentNameSearch').value = data.studentName;
+        selectedStudentName = data.studentName;
         document.getElementById('studentDept').value = data.studentDept;
         document.getElementById('studentStage').value = data.studentStage;
 
+        setAvatar('quizAvatar', data.studentName);
         document.getElementById('displayInfo').innerHTML =
             '<strong>' + escapeHtml(data.studentName) + '</strong><br>' +
             '<span style="opacity:0.85;font-size:0.88em;">' + escapeHtml(data.studentDept) + ' | ' + escapeHtml(data.studentStage) + '</span>';
@@ -2659,18 +3116,78 @@ function downloadCertificate() {
     }, { passive: true });
 })();
 
+// ===== EXAM HISTORY =====
+function saveExamHistory(name, score, correct, total, timeSec) {
+    try {
+        const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+        history.push({
+            name: name,
+            score: score,
+            correct: correct,
+            total: total,
+            time: timeSec,
+            date: new Date().toISOString()
+        });
+        // Keep last 20 entries
+        if (history.length > 20) history.splice(0, history.length - 20);
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    } catch(e) {}
+}
+function renderExamHistory() {
+    try {
+        const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+        const list = document.getElementById('historyList');
+        if (!list) return;
+        if (history.length === 0) {
+            list.innerHTML = '<div style="text-align:center;color:var(--text-muted);font-size:0.82em;padding:12px;">لا يوجد سجل / No history</div>';
+            return;
+        }
+        list.innerHTML = '';
+        // Show newest first
+        history.slice().reverse().forEach(function(entry) {
+            const div = document.createElement('div');
+            div.className = 'history-entry';
+            const d = new Date(entry.date);
+            const dateStr = d.toLocaleDateString('ar-IQ', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+            const passed = entry.score >= 50;
+            div.innerHTML = '<div style="display:flex;align-items:center;gap:8px;direction:rtl;">' +
+                '<span style="font-size:0.85em;color:var(--text-primary);font-weight:600;font-family:Tajawal,sans-serif;">' + escapeHtml(entry.name) + '</span>' +
+                '</div>' +
+                '<div style="display:flex;align-items:center;gap:10px;">' +
+                '<span class="history-date">' + dateStr + '</span>' +
+                '<span class="history-score ' + (passed ? 'pass' : 'fail') + '">' + entry.score + '/100</span>' +
+                '</div>';
+            list.appendChild(div);
+        });
+    } catch(e) {}
+}
+function toggleHistory() {
+    const list = document.getElementById('historyList');
+    list.classList.toggle('show');
+}
+
 // ===== INIT =====
 window.addEventListener('load', function() {
-    loadTheme();
-    createParticles();
-    checkAttempts();
-    validateForm();
-    checkSession();
+    try {
+        loadTheme();
+        createParticles();
+        initNameDropdown();
+        checkAttempts();
+        validateForm();
+        checkSession();
+    } catch(e) {
+        console.error('Init error:', e);
+    }
     // Hide loader
     setTimeout(function() {
         document.getElementById('pageLoader').classList.add('hidden');
     }, 600);
 });
+// Fallback: force hide loader after 3s
+setTimeout(function() {
+    var loader = document.getElementById('pageLoader');
+    if (loader) loader.classList.add('hidden');
+}, 3000);
 </script>
 </body>
 </html>
